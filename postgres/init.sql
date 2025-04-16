@@ -1,1 +1,2 @@
 CREATE DATABASE employee_service;
+CREATE DATABASE payroll_calculation_service;
