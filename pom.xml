@@ -18,7 +18,8 @@
 	<modules>
 		<module>employee-service</module>
 		<module>payroll-calculation-service</module>
-	</modules>
+        <module>tax-service</module>
+    </modules>
 
 	<properties>
 		<java.version>21</java.version>
