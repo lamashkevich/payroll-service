@@ -1,5 +1,6 @@
 package com.lamashkevich.employee_service.service;
 
+import com.lamashkevich.employee_service.dto.EmployeeBankInfoDto;
 import com.lamashkevich.employee_service.dto.EmployeeCreateAndUpdateDto;
 import com.lamashkevich.employee_service.dto.EmployeeDto;
 import com.lamashkevich.employee_service.entity.Employee;
@@ -69,4 +70,9 @@ public class EmployeeService {
         employeeRepository.delete(employee);
     }
 
+    public EmployeeBankInfoDto getBankInfoDtoById(Long id) {
+        log.info("Getting employee bank info with id: {}", id);
+        return employeeRepository.findEmployeeBankInfoById(id)
+                .orElseThrow(() -> new EmployeeNotFoundException(id));
+    }
 }

@@ -29,6 +29,8 @@ public class Employee {
 
     private BigDecimal salary;
 
+    private String IBAN;
+
     @Enumerated(EnumType.STRING)
     private EmploymentType employmentType;
 

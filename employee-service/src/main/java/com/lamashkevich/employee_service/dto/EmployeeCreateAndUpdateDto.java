@@ -10,6 +10,7 @@ public record EmployeeCreateAndUpdateDto(
         String position,
         String region,
         BigDecimal salary,
+        String IBAN,
         EmploymentType employmentType
 ) {
 }
