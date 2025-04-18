@@ -6,17 +6,14 @@ import com.lamashkevich.payment_service.dto.PaymentRequestDto;
 import com.lamashkevich.payment_service.entity.PaymentStatus;
 import com.lamashkevich.payment_service.exception.InvalidPaymentDateException;
 import com.lamashkevich.payment_service.exception.PaymentNotFoundException;
+import com.lamashkevich.payment_service.utils.BaseIntegrationTest;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.DynamicPropertyRegistry;
-import org.springframework.test.context.DynamicPropertySource;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.transaction.annotation.Transactional;
-import org.testcontainers.containers.PostgreSQLContainer;
-import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
 import java.math.BigDecimal;
@@ -31,21 +28,11 @@ import static org.mockito.Mockito.when;
 @SpringBootTest
 @ActiveProfiles("test")
 @Transactional
-class PaymentServiceTest {
-
-    @Container
-    public static final PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>("postgres:17.4");
+class PaymentServiceTest extends BaseIntegrationTest {
 
     private static final String VALID_IBAN = "GB33BUKB20201555555555";
     private static final long EXISTING_ID = 1L;
     private static final long NOT_EXISTING_ID = 5L;
-
-    @DynamicPropertySource
-    static void setProperties(DynamicPropertyRegistry registry) {
-        registry.add("spring.datasource.url", postgres::getJdbcUrl);
-        registry.add("spring.datasource.username", postgres::getUsername);
-        registry.add("spring.datasource.password", postgres::getPassword);
-    }
 
     @MockitoBean
     private EmployeeClient employeeClient;
