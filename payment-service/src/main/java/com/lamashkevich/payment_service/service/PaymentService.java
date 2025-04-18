@@ -48,12 +48,14 @@ public class PaymentService {
     }
 
     public List<PaymentResponseDto> getAll() {
+        log.info("Getting all payments");
         return paymentRepository.findAll().stream()
                 .map(paymentMapper::paymentToPaymentResponseDto)
                 .toList();
     }
 
     public PaymentResponseDto getById(Long id) {
+        log.info("Getting payment with id: {}", id);
         return paymentRepository.findById(id)
                 .map(paymentMapper::paymentToPaymentResponseDto)
                 .orElseThrow(() -> new PaymentNotFoundException(id));
