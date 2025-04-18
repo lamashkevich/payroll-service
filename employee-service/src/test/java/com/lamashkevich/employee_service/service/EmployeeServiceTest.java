@@ -11,9 +11,9 @@ import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.transaction.annotation.Transactional;
+import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
-import org.testcontainers.containers.PostgreSQLContainer;
 
 import java.math.BigDecimal;
 
@@ -29,6 +29,7 @@ class EmployeeServiceTest {
     @Container
     public static final PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>("postgres:17.4");
 
+    private static final String VALID_IBAN = "GB33BUKB20201555555555";
     private static final long EXISTING_EMPLOYEE_ID = 1L;
     private static final long NON_EXISTING_EMPLOYEE_ID = 6L;
 
@@ -62,12 +63,14 @@ class EmployeeServiceTest {
                 "Developer",
                 "Minsk",
                 BigDecimal.valueOf(9999),
+                VALID_IBAN,
                 EmploymentType.FULL_TIME
         );
 
         var result = employeeService.create(employeeDto);
 
         assertNotNull(result);
+        assertEquals(employeeDto.IBAN(), result.IBAN());
         assertEquals(employeeDto.firstName(), result.firstName());
         assertEquals(employeeDto.lastName(), result.lastName());
         assertEquals(employeeDto.position(), result.position());
@@ -83,12 +86,14 @@ class EmployeeServiceTest {
                 "position",
                 "position",
                 BigDecimal.valueOf(9999),
+                VALID_IBAN,
                 EmploymentType.FULL_TIME
         );
 
         var result = employeeService.updateById(EXISTING_EMPLOYEE_ID, employeeDto);
 
         assertNotNull(result);
+        assertEquals(VALID_IBAN, result.IBAN());
         assertEquals(EXISTING_EMPLOYEE_ID, result.id());
         assertEquals(employeeDto.firstName(), result.firstName());
         assertEquals(employeeDto.lastName(), result.lastName());
@@ -107,5 +112,15 @@ class EmployeeServiceTest {
         assertThrows(EmployeeNotFoundException.class, () -> employeeService.deleteById(EXISTING_EMPLOYEE_ID));
 
         assertThrows(EmployeeNotFoundException.class, () -> employeeService.deleteById(NON_EXISTING_EMPLOYEE_ID));
+    }
+
+    @Test
+    void getBankInfoDtoById() {
+        var result = employeeService.getBankInfoDtoById(EXISTING_EMPLOYEE_ID);
+
+        assertNotNull(result);
+        assertNotNull(result.firstName());
+        assertNotNull(result.lastName());
+        assertEquals(VALID_IBAN, result.IBAN());
     }
 }

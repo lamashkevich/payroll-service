@@ -10,3 +10,7 @@ CREATE TABLE IF NOT EXISTS employees (
   salary DECIMAL(10, 2),
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
+--changeset lamashkevich:2
+ALTER TABLE employees
+ADD COLUMN IBAN VARCHAR(34);
