@@ -20,6 +20,7 @@
 		<module>payroll-calculation-service</module>
         <module>tax-service</module>
 		<module>payment-service</module>
+		<module>api-gateway</module>
 	</modules>
 
 	<properties>
@@ -43,10 +44,6 @@
 	</dependencyManagement>
 
 	<dependencies>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-web</artifactId>
-		</dependency>
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
