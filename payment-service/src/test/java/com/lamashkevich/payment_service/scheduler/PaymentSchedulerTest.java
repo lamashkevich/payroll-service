@@ -6,14 +6,9 @@ import com.lamashkevich.payment_service.entity.Payment;
 import com.lamashkevich.payment_service.entity.PaymentStatus;
 import com.lamashkevich.payment_service.repository.PaymentRepository;
 import com.lamashkevich.payment_service.utils.BaseIntegrationTest;
-import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
-import org.springframework.transaction.annotation.Transactional;
-import org.testcontainers.junit.jupiter.Testcontainers;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -23,11 +18,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
-@Slf4j
-@Testcontainers
-@SpringBootTest
-@ActiveProfiles("test")
-@Transactional
 class PaymentSchedulerTest extends BaseIntegrationTest {
 
     private static final String VALID_IBAN = "GB33BUKB20201555555555";
