@@ -6,7 +6,7 @@ import com.lamashkevich.payment_service.entity.PaymentStatus;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
-@Profile("dev")
+@Profile({"dev", "test"})
 @Component
 public class FakePaymentProcessor implements PaymentProcessor {
     @Override

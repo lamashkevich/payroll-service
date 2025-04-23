@@ -9,12 +9,8 @@ import com.lamashkevich.payment_service.exception.PaymentNotFoundException;
 import com.lamashkevich.payment_service.utils.BaseIntegrationTest;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.context.jdbc.Sql;
-import org.springframework.transaction.annotation.Transactional;
-import org.testcontainers.junit.jupiter.Testcontainers;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -24,10 +20,6 @@ import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.when;
 
 @Sql("/sql/init.sql")
-@Testcontainers
-@SpringBootTest
-@ActiveProfiles("test")
-@Transactional
 class PaymentServiceTest extends BaseIntegrationTest {
 
     private static final String VALID_IBAN = "GB33BUKB20201555555555";
