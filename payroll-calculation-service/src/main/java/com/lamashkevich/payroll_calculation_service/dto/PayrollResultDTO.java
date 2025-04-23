@@ -1,6 +1,6 @@
-package com.lamashkevich.payroll_calclulation_service.dto;
+package com.lamashkevich.payroll_calculation_service.dto;
 
-import com.lamashkevich.payroll_calclulation_service.entity.PaymentType;
+import com.lamashkevich.payroll_calculation_service.entity.PaymentType;
 
 import java.math.BigDecimal;
 

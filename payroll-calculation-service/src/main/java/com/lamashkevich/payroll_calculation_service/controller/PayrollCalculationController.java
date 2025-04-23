@@ -1,8 +1,8 @@
-package com.lamashkevich.payroll_calclulation_service.controller;
+package com.lamashkevich.payroll_calculation_service.controller;
 
-import com.lamashkevich.payroll_calclulation_service.dto.PayrollCalculationRequestDTO;
-import com.lamashkevich.payroll_calclulation_service.dto.PayrollResultDTO;
-import com.lamashkevich.payroll_calclulation_service.service.PayrollCalculationService;
+import com.lamashkevich.payroll_calculation_service.dto.PayrollCalculationRequestDTO;
+import com.lamashkevich.payroll_calculation_service.dto.PayrollResultDTO;
+import com.lamashkevich.payroll_calculation_service.service.PayrollCalculationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;

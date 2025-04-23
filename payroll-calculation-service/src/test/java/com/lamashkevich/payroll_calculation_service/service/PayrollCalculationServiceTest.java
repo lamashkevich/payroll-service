@@ -1,9 +1,9 @@
-package com.lamashkevich.payroll_calclulation_service.service;
+package com.lamashkevich.payroll_calculation_service.service;
 
-import com.lamashkevich.payroll_calclulation_service.client.TaxClient;
-import com.lamashkevich.payroll_calclulation_service.dto.PayrollCalculationRequestDTO;
-import com.lamashkevich.payroll_calclulation_service.entity.PaymentType;
-import com.lamashkevich.payroll_calclulation_service.event.PayrollCalculatedEvent;
+import com.lamashkevich.payroll_calculation_service.client.TaxClient;
+import com.lamashkevich.payroll_calculation_service.dto.PayrollCalculationRequestDTO;
+import com.lamashkevich.payroll_calculation_service.entity.PaymentType;
+import com.lamashkevich.payroll_calculation_service.event.PayrollCalculatedEvent;
 import org.apache.kafka.clients.consumer.Consumer;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.consumer.KafkaConsumer;

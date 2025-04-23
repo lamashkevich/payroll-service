@@ -1,12 +1,12 @@
-package com.lamashkevich.payroll_calclulation_service.service;
+package com.lamashkevich.payroll_calculation_service.service;
 
-import com.lamashkevich.payroll_calclulation_service.client.TaxClient;
-import com.lamashkevich.payroll_calclulation_service.dto.PayrollCalculationRequestDTO;
-import com.lamashkevich.payroll_calclulation_service.dto.PayrollResultDTO;
-import com.lamashkevich.payroll_calclulation_service.entity.Payroll;
-import com.lamashkevich.payroll_calclulation_service.event.PayrollCalculatedEvent;
-import com.lamashkevich.payroll_calclulation_service.mapper.PayrollMapper;
-import com.lamashkevich.payroll_calclulation_service.repository.PayrollRepository;
+import com.lamashkevich.payroll_calculation_service.client.TaxClient;
+import com.lamashkevich.payroll_calculation_service.dto.PayrollCalculationRequestDTO;
+import com.lamashkevich.payroll_calculation_service.dto.PayrollResultDTO;
+import com.lamashkevich.payroll_calculation_service.entity.Payroll;
+import com.lamashkevich.payroll_calculation_service.event.PayrollCalculatedEvent;
+import com.lamashkevich.payroll_calculation_service.mapper.PayrollMapper;
+import com.lamashkevich.payroll_calculation_service.repository.PayrollRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;

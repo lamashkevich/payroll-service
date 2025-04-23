@@ -1,4 +1,4 @@
-package com.lamashkevich.payroll_calclulation_service.event;
+package com.lamashkevich.payroll_calculation_service.event;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

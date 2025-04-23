@@ -1,4 +1,4 @@
-package com.lamashkevich.payroll_calclulation_service.entity;
+package com.lamashkevich.payroll_calculation_service.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
