@@ -1,4 +1,4 @@
-package com.lamashkevich.payroll_calclulation_service.exception;
+package com.lamashkevich.payroll_calculation_service.exception;
 
 import feign.FeignException;
 import lombok.extern.slf4j.Slf4j;

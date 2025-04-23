@@ -1,4 +1,4 @@
-package com.lamashkevich.payroll_calclulation_service.service;
+package com.lamashkevich.payroll_calculation_service.service;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

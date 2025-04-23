@@ -1,4 +1,4 @@
-package com.lamashkevich.payroll_calclulation_service;
+package com.lamashkevich.payroll_calculation_service;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
