@@ -1,8 +1,15 @@
 server:
   port: 8088
 spring:
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:8080/realms/payroll-service
   cloud:
     gateway:
+      default-filters:
+        - TokenRelay
       routes:
         - id: employee-service
           uri: http://localhost:8081
