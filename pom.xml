@@ -21,6 +21,7 @@
         <module>tax-service</module>
 		<module>payment-service</module>
 		<module>api-gateway</module>
+		<module>internal-auth-starter</module>
 	</modules>
 
 	<properties>
