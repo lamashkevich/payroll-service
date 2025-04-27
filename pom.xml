@@ -22,6 +22,7 @@
 		<module>payment-service</module>
 		<module>api-gateway</module>
 		<module>internal-auth-starter</module>
+		<module>eureka-server</module>
 	</modules>
 
 	<properties>

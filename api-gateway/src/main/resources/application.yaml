@@ -1,6 +1,9 @@
 server:
   port: 8088
+
 spring:
+  application:
+    name: api-gateway
   security:
     oauth2:
       resourceserver:
@@ -12,21 +15,30 @@ spring:
         - TokenRelay
       routes:
         - id: employee-service
-          uri: http://localhost:8081
+          uri: lb://employee-service
           predicates:
             - Path=/api/v1/employees/**
 
         - id: payroll-calculation-service
-          uri: http://localhost:8082
+          uri: lb://payroll-calculation-service
           predicates:
             - Path=/api/v1/payrolls/**
 
         - id: tax-service
-          uri: http://localhost:8083
+          uri: lb://tax-service
           predicates:
             - Path=/api/v1/taxes/**
 
         - id: payment-service
-          uri: http://localhost:8084
+          uri: lb://payment-service
           predicates:
             - Path=/api/v1/payments/**
+
+eureka:
+  instance:
+    prefer-ip-address: true
+    hostname: localhost
+  client:
+    eureka-server-port: 8761
+    service-url:
+      defaultZone: http://${eureka.instance.hostname}:${eureka.client.eureka-server-port}/eureka/
