@@ -9,7 +9,7 @@ import java.math.BigDecimal;
 
 @FeignClient(
         name = "tax-service",
-        url = "${client.tax-service.url}",
+        url = "${client.internal.url}",
         configuration = InternalFeignConfig.class
 )
 public interface TaxClient {

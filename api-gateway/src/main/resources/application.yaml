@@ -1,6 +1,9 @@
 server:
   port: 8088
+
 spring:
+  application:
+    name: api-gateway
   security:
     oauth2:
       resourceserver:
@@ -30,3 +33,12 @@ spring:
           uri: http://localhost:8084
           predicates:
             - Path=/api/v1/payments/**
+
+eureka:
+  instance:
+    prefer-ip-address: true
+    hostname: localhost
+  client:
+    eureka-server-port: 8761
+    service-url:
+      defaultZone: http://${eureka.instance.hostname}:${eureka.client.eureka-server-port}/eureka/
