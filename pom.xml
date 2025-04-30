@@ -23,7 +23,8 @@
 		<module>api-gateway</module>
 		<module>internal-auth-starter</module>
 		<module>eureka-server</module>
-	</modules>
+        <module>config-server</module>
+    </modules>
 
 	<properties>
 		<java.version>21</java.version>
