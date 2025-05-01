@@ -4,41 +4,5 @@ server:
 spring:
   application:
     name: api-gateway
-  security:
-    oauth2:
-      resourceserver:
-        jwt:
-          issuer-uri: http://localhost:8080/realms/payroll-service
-  cloud:
-    gateway:
-      default-filters:
-        - TokenRelay
-      routes:
-        - id: employee-service
-          uri: lb://employee-service
-          predicates:
-            - Path=/api/v1/employees/**
-
-        - id: payroll-calculation-service
-          uri: lb://payroll-calculation-service
-          predicates:
-            - Path=/api/v1/payrolls/**
-
-        - id: tax-service
-          uri: lb://tax-service
-          predicates:
-            - Path=/api/v1/taxes/**
-
-        - id: payment-service
-          uri: lb://payment-service
-          predicates:
-            - Path=/api/v1/payments/**
-
-eureka:
-  instance:
-    prefer-ip-address: true
-    hostname: localhost
-  client:
-    eureka-server-port: 8761
-    service-url:
-      defaultZone: http://${eureka.instance.hostname}:${eureka.client.eureka-server-port}/eureka/
+  config:
+    import: optional:configserver:http://localhost:8888
