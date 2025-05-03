@@ -1,5 +1,6 @@
-package com.lamashkevich.security;
+package com.lamashkevich.payment_service.config;
 
+import com.lamashkevich.payment_service.security.ServiceAuthenticationProvider;
 import feign.RequestInterceptor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
