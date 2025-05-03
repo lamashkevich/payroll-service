@@ -1,6 +1,6 @@
 package com.lamashkevich.payroll_calculation_service.client;
 
-import com.lamashkevich.security.InternalFeignConfig;
+import com.lamashkevich.payroll_calculation_service.config.InternalFeignConfig;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;

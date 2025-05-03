@@ -1,10 +1,12 @@
-package com.lamashkevich.security;
+package com.lamashkevich.payment_service.security;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.oauth2.client.OAuth2AuthorizeRequest;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClient;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClientManager;
+import org.springframework.stereotype.Component;
 
+@Component
 @RequiredArgsConstructor
 public class ServiceAuthenticationProvider {
 
