@@ -89,6 +89,11 @@ services:
     ports:
       - "8888:8888"
     env_file: .env
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "-q", "http://localhost:8888/actuator/health"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
     networks:
       - backend-network
 
@@ -102,7 +107,8 @@ services:
     environment:
       SPRING_PROFILES_ACTIVE: docker
     depends_on:
-      - config-server
+      config-server:
+        condition: service_healthy
     networks:
       - backend-network
 
@@ -116,8 +122,10 @@ services:
     environment:
       SPRING_PROFILES_ACTIVE: docker
     depends_on:
-      - eureka-server
-      - config-server
+      config-server:
+        condition: service_healthy
+      eureka-server:
+        condition: service_started
     networks:
       - backend-network
 
@@ -129,9 +137,12 @@ services:
     environment:
       SPRING_PROFILES_ACTIVE: docker
     depends_on:
-      - eureka-server
-      - config-server
-      - postgres
+      config-server:
+        condition: service_healthy
+      eureka-server:
+        condition: service_started
+      postgres:
+        condition: service_started
     networks:
       - backend-network
 
@@ -143,9 +154,12 @@ services:
     environment:
       SPRING_PROFILES_ACTIVE: docker
     depends_on:
-      - eureka-server
-      - config-server
-      - postgres
+      config-server:
+        condition: service_healthy
+      eureka-server:
+        condition: service_started
+      postgres:
+        condition: service_started
     networks:
       - backend-network
 
@@ -157,9 +171,12 @@ services:
     environment:
       SPRING_PROFILES_ACTIVE: docker
     depends_on:
-      - eureka-server
-      - config-server
-      - postgres
+      config-server:
+        condition: service_healthy
+      eureka-server:
+        condition: service_started
+      postgres:
+        condition: service_started
     networks:
       - backend-network
 
@@ -171,9 +188,12 @@ services:
     environment:
       SPRING_PROFILES_ACTIVE: docker
     depends_on:
-      - eureka-server
-      - config-server
-      - postgres
+      config-server:
+        condition: service_healthy
+      eureka-server:
+        condition: service_started
+      postgres:
+        condition: service_started
     networks:
       - backend-network
 
