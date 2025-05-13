@@ -7,6 +7,7 @@ import java.math.BigDecimal;
 public record EmployeeCreateAndUpdateDto(
         String firstName,
         String lastName,
+        String email,
         String position,
         String region,
         BigDecimal salary,

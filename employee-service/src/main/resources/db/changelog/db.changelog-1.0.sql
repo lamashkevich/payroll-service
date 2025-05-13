@@ -14,3 +14,7 @@ CREATE TABLE IF NOT EXISTS employees (
 --changeset lamashkevich:2
 ALTER TABLE employees
 ADD COLUMN IBAN VARCHAR(34);
+
+--changeset lamashkevich:3
+ALTER TABLE employees
+ADD COLUMN email VARCHAR(50) UNIQUE;
