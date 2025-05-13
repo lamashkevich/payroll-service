@@ -39,6 +39,14 @@ public class EmployeeService {
                 .orElseThrow(() -> new EmployeeNotFoundException(id));
     }
 
+    public EmployeeDto findByEmail(String email) {
+        log.info("Getting employee with email: {}", email);
+        return employeeRepository
+                .findByEmail(email)
+                .map(employeeMapper::employeeToEmployeeDto)
+                .orElseThrow(() -> new EmployeeNotFoundException(email));
+    }
+
     @Transactional
     public EmployeeDto create(EmployeeCreateAndUpdateDto employeeDto) {
         log.info("Creating new employee: {}", employeeDto);

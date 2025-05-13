@@ -30,7 +30,9 @@ class EmployeeServiceTest {
     public static final PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>("postgres:17.4");
 
     private static final String VALID_IBAN = "GB33BUKB20201555555555";
+    private static final String EXISTING_EMPLOYEE_EMAIL = "email1@test.test";
     private static final long EXISTING_EMPLOYEE_ID = 1L;
+    private static final String NON_EXISTING_EMPLOYEE_EMAIL = "notexist@test.test";
     private static final long NON_EXISTING_EMPLOYEE_ID = 6L;
 
     @DynamicPropertySource
@@ -60,6 +62,7 @@ class EmployeeServiceTest {
         var employeeDto = new EmployeeCreateAndUpdateDto(
                 "First",
                 "Last",
+                "email@test.test",
                 "Developer",
                 "Minsk",
                 BigDecimal.valueOf(9999),
@@ -73,6 +76,7 @@ class EmployeeServiceTest {
         assertEquals(employeeDto.IBAN(), result.IBAN());
         assertEquals(employeeDto.firstName(), result.firstName());
         assertEquals(employeeDto.lastName(), result.lastName());
+        assertEquals(employeeDto.email(), result.email());
         assertEquals(employeeDto.position(), result.position());
         assertEquals(employeeDto.salary(), result.salary());
         assertEquals(employeeDto.employmentType(), result.employmentType());
@@ -83,6 +87,7 @@ class EmployeeServiceTest {
         var employeeDto = new EmployeeCreateAndUpdateDto(
                 "First",
                 "Last",
+                "email@test.test",
                 "position",
                 "position",
                 BigDecimal.valueOf(9999),
@@ -97,6 +102,7 @@ class EmployeeServiceTest {
         assertEquals(EXISTING_EMPLOYEE_ID, result.id());
         assertEquals(employeeDto.firstName(), result.firstName());
         assertEquals(employeeDto.lastName(), result.lastName());
+        assertEquals(employeeDto.email(), result.email());
         assertEquals(employeeDto.position(), result.position());
         assertEquals(employeeDto.salary(), result.salary());
         assertEquals(employeeDto.employmentType(), result.employmentType());
@@ -122,5 +128,11 @@ class EmployeeServiceTest {
         assertNotNull(result.firstName());
         assertNotNull(result.lastName());
         assertEquals(VALID_IBAN, result.IBAN());
+    }
+
+    @Test
+    void findByEmail() {
+        assertNotNull(employeeService.findByEmail(EXISTING_EMPLOYEE_EMAIL));
+        assertThrows(EmployeeNotFoundException.class, () -> employeeService.findByEmail(NON_EXISTING_EMPLOYEE_EMAIL));
     }
 }
