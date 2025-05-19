@@ -8,7 +8,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public record PaymentResponseDto(
-        String id,
+        Long id,
         Long employeeId,
         BigDecimal amount,
         String IBAN,

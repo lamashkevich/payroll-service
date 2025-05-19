@@ -2,6 +2,7 @@ package com.lamashkevich.payment_service.service;
 
 import com.lamashkevich.payment_service.client.EmployeeClient;
 import com.lamashkevich.payment_service.dto.EmployeeBankInfoDto;
+import com.lamashkevich.payment_service.dto.PaymentFilter;
 import com.lamashkevich.payment_service.dto.PaymentRequestDto;
 import com.lamashkevich.payment_service.entity.PaymentStatus;
 import com.lamashkevich.payment_service.exception.InvalidPaymentDateException;
@@ -71,19 +72,41 @@ class PaymentServiceTest extends BaseIntegrationTest {
     }
 
     @Test
-    void getAll() {
-        var result = paymentService.getAll();
-
-        assertNotNull(result);
-        assertEquals(4, result.size());
-    }
-
-    @Test
     void getById() {
         var result = paymentService.getById(EXISTING_ID);
 
         assertNotNull(result);
         assertThrows(PaymentNotFoundException.class,
                 () -> paymentService.getById(NOT_EXISTING_ID));
+    }
+
+    @Test
+    void getAllByFilter() {
+        var stringDate = "2025-05-14";
+        var minAmount = BigDecimal.valueOf(150);
+        var maxAmount = BigDecimal.valueOf(350);
+        var startDate = LocalDate.parse(stringDate);
+        var endDate = LocalDate.parse(stringDate);
+
+        var filter = new PaymentFilter(minAmount, maxAmount, startDate, endDate);
+
+        var result = paymentService.getAllByFilter(filter);
+        assertNotNull(result);
+        assertEquals(1, result.size());
+
+        var first = result.getFirst();
+        assertEquals(3L, first.id());
+        assertEquals(stringDate, first.updatedAt().toLocalDate().toString());
+        assertTrue(first.amount().compareTo((maxAmount)) <= 0);
+        assertTrue(first.amount().compareTo((minAmount)) >= 0);
+    }
+
+    @Test
+    void getAllByFilter_whenFilterIsEmpty() {
+        var filter = new PaymentFilter(null, null, null, null);
+
+        var result = paymentService.getAllByFilter(filter);
+        assertNotNull(result);
+        assertEquals(4, result.size());
     }
 }

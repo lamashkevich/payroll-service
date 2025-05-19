@@ -27,7 +27,6 @@ public class Payment {
 
     private BigDecimal amount;
 
-
     @Enumerated(EnumType.STRING)
     private PaymentStatus status;
 
