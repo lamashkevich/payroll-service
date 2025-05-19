@@ -1,6 +1,7 @@
 package com.lamashkevich.payment_service.service;
 
 import com.lamashkevich.payment_service.client.EmployeeClient;
+import com.lamashkevich.payment_service.dto.PaymentFilter;
 import com.lamashkevich.payment_service.dto.PaymentRequestDto;
 import com.lamashkevich.payment_service.dto.PaymentResponseDto;
 import com.lamashkevich.payment_service.entity.Payment;
@@ -9,8 +10,10 @@ import com.lamashkevich.payment_service.exception.InvalidPaymentDateException;
 import com.lamashkevich.payment_service.exception.PaymentNotFoundException;
 import com.lamashkevich.payment_service.mapper.PaymentMapper;
 import com.lamashkevich.payment_service.repository.PaymentRepository;
+import com.lamashkevich.payment_service.repository.specification.PaymentSpecification;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -47,9 +50,14 @@ public class PaymentService {
         return paymentMapper.paymentToPaymentResponseDto(payment);
     }
 
-    public List<PaymentResponseDto> getAll() {
-        log.info("Getting all payments");
-        return paymentRepository.findAll().stream()
+    public List<PaymentResponseDto> getAllByFilter(PaymentFilter filter) {
+        log.info("Getting all by filter {}", filter);
+        Specification<Payment> spec = Specification
+                .where(PaymentSpecification.hasMaxAmount(filter.maxAmount()))
+                .and(PaymentSpecification.hasMinAmount(filter.minAmount()))
+                .and(PaymentSpecification.updatedAtBetween(filter.startDate(), filter.endDate()));
+
+        return paymentRepository.findAll(spec).stream()
                 .map(paymentMapper::paymentToPaymentResponseDto)
                 .toList();
     }
