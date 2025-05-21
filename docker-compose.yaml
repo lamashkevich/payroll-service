@@ -88,6 +88,11 @@ services:
       dockerfile: ./config-server/Dockerfile
     ports:
       - "8888:8888"
+    volumes:
+      - ./config:/app/config
+    working_dir: /app
+    environment:
+      SPRING_PROFILES_ACTIVE: local, native
     env_file: .env
     healthcheck:
       test: ["CMD", "wget", "--spider", "-q", "http://localhost:8888/actuator/health"]

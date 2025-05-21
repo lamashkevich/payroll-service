@@ -1,0 +1,81 @@
+spring:
+  cloud:
+    gateway:
+      default-filters:
+        - TokenRelay
+      routes:
+        # Employee-service
+        - id: employee-service-api-docs
+          uri: lb://employee-service
+          predicates:
+            - Path=/employees/api-docs
+          filters:
+            - RewritePath=/employees/api-docs, /api-docs
+            
+        - id: employee-service
+          uri: lb://employee-service
+          predicates:
+            - Path=/api/v1/employees/**
+
+        # Payroll calculation service
+        - id: payroll-calculation-service-api-docs
+          uri: lb://payroll-calculation-service
+          predicates:
+            - Path=/payrolls/api-docs
+          filters:
+            - RewritePath=/payrolls/api-docs, /api-docs
+            
+        - id: payroll-calculation-service
+          uri: lb://payroll-calculation-service
+          predicates:
+            - Path=/api/v1/payrolls/**
+
+        # Tax service
+        - id: tax-service-api-docs
+          uri: lb://tax-service
+          predicates:
+            - Path=/taxes/api-docs
+          filters:
+            - RewritePath=/taxes/api-docs, /api-docs
+            
+        - id: tax-service
+          uri: lb://tax-service
+          predicates:
+            - Path=/api/v1/taxes/**
+
+        # Payment service
+        - id: payment-service-api-docs
+          uri: lb://payment-service
+          predicates:
+            - Path=/payments/api-docs
+          filters:
+            - RewritePath=/payments/api-docs, /api-docs
+            
+        - id: payment-service
+          uri: lb://payment-service
+          predicates:
+            - Path=/api/v1/payments/**
+
+eureka:
+  client:
+    eureka-server-port: 8761
+    service-url:
+      defaultZone: http://${eureka.instance.hostname}:${eureka.client.eureka-server-port}/eureka/
+  instance:
+    prefer-ip-address: true
+
+springdoc:
+  api-docs:
+    path: /api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    enabled: true
+    urls:
+      - name: Employee service
+        url: /employees/api-docs
+      - name: Tax service
+        url: /taxes/api-docs
+      - name: Payroll calculation service
+        url: /payrolls/api-docs
+      - name: Payment service
+        url: /payments/api-docs
