@@ -2,7 +2,6 @@
 Microservice application for salary calculation and payment processing.  
 Created as a practice project for implementing microservice architecture.
 
----
 ## Technologies
 - Java 21
 - Spring Boot 4.4
@@ -14,12 +13,10 @@ Created as a practice project for implementing microservice architecture.
 - Kafka
 - Keycloak
 
----
 ## Profiles
 - `docker` - Default profile for containerized environment (auto-activated in Docker)
 - `dev` - Local development profile
 
----
 ## Deployment
 ### 1. **Clone the repository:**
 
