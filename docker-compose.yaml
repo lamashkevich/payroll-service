@@ -1,0 +1,214 @@
+services:
+  postgres:
+    image: postgres:17.4
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./postgres:/docker-entrypoint-initdb.d
+    env_file: .env
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    networks:
+      - backend-network
+
+  zookeeper:
+    image: confluentinc/cp-zookeeper:7.7.0
+    hostname: zookeeper
+    container_name: zookeeper
+    ports:
+      - "2181:2181"
+    env_file: .env
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+    networks:
+      - backend-network
+
+  broker:
+    image: confluentinc/cp-kafka:7.7.0
+    container_name: broker
+    ports:
+      - "9092:9092"
+      - "29092:29092"
+    depends_on:
+      - zookeeper
+    env_file: .env
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: 'zookeeper:2181'
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://broker:29092,PLAINTEXT_HOST://localhost:9092
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+    networks:
+      - backend-network
+
+  keycloak:
+    image: quay.io/keycloak/keycloak:24.0.1
+    restart: "no"
+    command:
+      - "start-dev"
+      - "--import-realm"
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./keycloak:/opt/keycloak/data/import/
+    env_file: .env
+    environment:
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin
+      DB_VENDOR: POSTGRES
+      DB_ADDR: keycloak-postgres
+      DB_USER: ${KC_DB_USER}
+      DB_PASSWORD: ${KC_DB_PASSWORD}
+      DB_DATABASE: keycloak
+    depends_on:
+      keycloak-postgres:
+        condition: service_healthy
+    networks:
+      - backend-network
+
+  keycloak-postgres:
+    image: postgres:17.4
+    volumes:
+      - keycloak_postgres_data:/var/lib/postgresql/data
+    env_file: .env
+    environment:
+      POSTGRES_USER: ${KC_DB_USER}
+      POSTGRES_PASSWORD: ${KC_DB_PASSWORD}
+      POSTGRES_DB: keycloak
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U keycloak" ]
+      interval: 10s
+      retries: 5
+    networks:
+      - backend-network
+
+  config-server:
+    build:
+      context: .
+      dockerfile: ./config-server/Dockerfile
+    ports:
+      - "8888:8888"
+    volumes:
+      - ./config:/app/config
+    working_dir: /app
+    environment:
+      SPRING_PROFILES_ACTIVE: local, native
+    env_file: .env
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "-q", "http://localhost:8888/actuator/health"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    networks:
+      - backend-network
+
+  eureka-server:
+    build:
+      context: .
+      dockerfile: ./eureka-server/Dockerfile
+    ports:
+      - "8761:8761"
+    env_file: .env
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+    depends_on:
+      config-server:
+        condition: service_healthy
+    networks:
+      - backend-network
+
+  api-gateway:
+    build:
+      context: .
+      dockerfile: ./api-gateway/Dockerfile
+    ports:
+      - "8088:8088"
+    env_file: .env
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+    depends_on:
+      config-server:
+        condition: service_healthy
+      eureka-server:
+        condition: service_started
+    networks:
+      - backend-network
+
+  employee-service:
+    build:
+      context: .
+      dockerfile: ./employee-service/Dockerfile
+    env_file: .env
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+    depends_on:
+      config-server:
+        condition: service_healthy
+      eureka-server:
+        condition: service_started
+      postgres:
+        condition: service_started
+    networks:
+      - backend-network
+
+  tax-service:
+    build:
+      context: .
+      dockerfile: ./tax-service/Dockerfile
+    env_file: .env
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+    depends_on:
+      config-server:
+        condition: service_healthy
+      eureka-server:
+        condition: service_started
+      postgres:
+        condition: service_started
+    networks:
+      - backend-network
+
+  payment-service:
+    build:
+      context: .
+      dockerfile: ./payment-service/Dockerfile
+    env_file: .env
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+    depends_on:
+      config-server:
+        condition: service_healthy
+      eureka-server:
+        condition: service_started
+      postgres:
+        condition: service_started
+    networks:
+      - backend-network
+
+  payroll-calculation-service:
+    build:
+      context: .
+      dockerfile: ./payroll-calculation-service/Dockerfile
+    env_file: .env
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+    depends_on:
+      config-server:
+        condition: service_healthy
+      eureka-server:
+        condition: service_started
+      postgres:
+        condition: service_started
+    networks:
+      - backend-network
+
+volumes:
+  postgres_data:
+  keycloak_postgres_data:
+
+networks:
+  backend-network:
+    driver: bridge
