@@ -4,7 +4,7 @@ Created as a practice project for implementing microservice architecture.
 
 ## Technologies
 - Java 21
-- Spring Boot 4.4
+- Spring Boot 3.4
 - Spring Cloud 2024
 - PostgreSQL
 - Liquibase
